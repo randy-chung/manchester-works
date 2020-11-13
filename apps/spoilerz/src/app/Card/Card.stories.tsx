@@ -10,7 +10,17 @@ export default {
   title: 'Components/Card',
 } as Meta;
 
-export const SplCard = () => {
+export const EmptyCard = () => {
+  return (
+    <Card>
+      <Card.Body>
+        <Card.Text>This is a card.</Card.Text>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const CardWithImageTitleButton = () => {
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src="holder.js/100px180" />
