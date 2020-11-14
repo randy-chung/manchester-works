@@ -4,6 +4,8 @@ import { createStore, applyMiddleware, Store } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 
+import { watchRequestFeedData } from './app/sagas/sagaRequestFeed';
+
 import { App } from './app/App';
 
 /**
@@ -11,9 +13,12 @@ import { App } from './app/App';
  */
 function tmpReducer() {}
 
-// Initialize redux store and saga middleware.
+// Initialize saga middleware and redux store.
 const sagaMiddleware: SagaMiddleware = createSagaMiddleware();
 const store: Store = createStore(tmpReducer, applyMiddleware(sagaMiddleware));
+
+// Run the saga to watch for data requests for the activity feed.
+sagaMiddleware.run(watchRequestFeedData);
 
 ReactDOM.render(
   <React.StrictMode>
