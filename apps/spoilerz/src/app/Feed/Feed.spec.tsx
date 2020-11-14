@@ -14,7 +14,6 @@ describe('Feed', () => {
     // Arrange, Act
     const dataLength = 5; // Temporary, data is hard coded for now.
     render(<Feed />);
-    // console.log('baseElement %o', baseElement);
     // screen.debug(); // Show the HTML rendered.
     // screen.getByRole(''); // Passing an empty string shows all available roles.
     const listItems = screen.getAllByRole('listitem');
