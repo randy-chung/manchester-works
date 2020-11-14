@@ -63,11 +63,3 @@ export class Feed extends React.PureComponent {
     );
   }
 }
-
-// const Feed: React.FC = () => (
-//   <div className={styles.Feed}>
-//     Feed Component
-//   </div>
-// );
-
-// export default Feed;
