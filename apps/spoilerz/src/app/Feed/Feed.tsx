@@ -4,36 +4,18 @@ import styles from './Feed.module.scss';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
+interface FeedProps {
+  feedEvents: FeedEvent[]
+}
+
 // Temp -- move this
 interface FeedEvent {
+  id: number;
   title: string;
   content: string;
 }
 
-export class Feed extends React.PureComponent {
-  // Temp fake data.
-  readonly feedEvents: FeedEvent[] = [
-    {
-      title: 'Mommie Dearest 1981',
-      content: 'Mommie Dearest 1981',
-    },
-    {
-      title: 'Oldboy 2003',
-      content: 'Oldboy 2003',
-    },
-    {
-      title: 'The Mirror Crack’d 1980',
-      content: 'The Mirror Crack’d 1980',
-    },
-    {
-      title: 'The Elephant Man 1980',
-      content: 'The Elephant Man 1980',
-    },
-    {
-      title: 'On the Rocks 2020',
-      content: 'On the Rocks 2020',
-    },
-  ];
+export class Feed extends React.PureComponent<FeedProps> {
 
   constructor(props) {
     super(props);
@@ -43,8 +25,8 @@ export class Feed extends React.PureComponent {
   render() {
     return (
       <ul className={styles.Feed}>
-        {this.feedEvents.map((feedEvent) => (
-          <li>
+        {this.props.feedEvents.map((feedEvent) => (
+          <li key={feedEvent.id}>
             <Card style={{ width: '18rem' }}>
               <Card.Img
                 variant="top"
