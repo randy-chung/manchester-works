@@ -1,22 +1,37 @@
+/** React stuff */
 import React from 'react';
-import styles from './Feed.module.scss';
+import { connect } from 'react-redux';
 
+/** UI components */
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
+/** Interfaces */
+import { FeedEvent, StoreState } from '../interfaces/interfaces';
+
+/** Styles */
+import styles from './Feed.module.scss';
+
 interface FeedProps {
-  feedEvents: FeedEvent[]
+  feedEvents: FeedEvent[];
 }
 
-// Temp -- move this
-interface FeedEvent {
-  id: number;
-  title: string;
-  content: string;
+/**
+ * Use this with `connect` to subscribe the container component returned by `connect` to updates
+ * from the redux store updates.
+ */
+function mapStateToProps(state: StoreState) {
+  // The object returned by this function (used by `connect`, at the bottom of this file) allows
+  // the connect-wrapped component to subscribe to the specified field from the Redux store. The
+  // object's keys become props in the wrapped component, which are subscribed to the store field
+  // specified by the corresponding value.
+  // ie. key : value is [prop name in wrapped component] : [field in store to subscribe to]
+  return {
+    feedEvents: state.feedEvents,
+  };
 }
 
-export class Feed extends React.PureComponent<FeedProps> {
-
+class Feed extends React.PureComponent<FeedProps> {
   constructor(props) {
     super(props);
     this.state = {};
@@ -45,3 +60,6 @@ export class Feed extends React.PureComponent<FeedProps> {
     );
   }
 }
+
+// Connect the Feed component to the store and return the store-wrapped component.
+export default connect(mapStateToProps)(Feed);
