@@ -6,19 +6,25 @@
  */
 
 /** React stuff */
-import { createStore, Store } from 'redux';
+import { applyMiddleware, createStore, Store } from 'redux';
+import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 
 /** Spoilerz stuff */
 import { reducer } from '../reducers/reducer';
+import { watchRequestFeedData } from '../sagas/sagaRequestFeed';
 
-/** Interfaces */
-import { StoreState } from '../interfaces/interfaces';
-
-const initialState: StoreState = { feedEvents: [] };
+// Initialize saga middleware and redux store.
+const sagaMiddleware: SagaMiddleware = createSagaMiddleware();
 
 /**
  *
  * The Redux store
  *
  */
-export const store: Store = createStore(reducer, initialState);
+export const store: Store = createStore(
+  reducer,
+  applyMiddleware(sagaMiddleware)
+);
+
+// Run the saga to watch for data requests for the activity feed.
+sagaMiddleware.run(watchRequestFeedData);

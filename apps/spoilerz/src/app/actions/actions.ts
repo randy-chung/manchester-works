@@ -6,7 +6,7 @@
 import {
   ActionTypeKeys,
   ActionTypes,
-  GetFeedAction,
+  ReqFeedAction,
 } from '../interfaces/interfaces';
 
-export { ActionTypeKeys, ActionTypes, GetFeedAction };
+export { ActionTypeKeys, ActionTypes, ReqFeedAction };

@@ -1,12 +1,12 @@
 /** React stuff */
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 
 /** Spoilerz stuff */
 import Feed from './Feed/Feed';
 import { store } from './store/store';
 
 /** UI components */
+import Button from 'react-bootstrap/Button';
 
 /** Interfaces */
 import { ActionTypeKeys } from './interfaces/interfaces';
@@ -18,7 +18,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 /**
  * App component
  */
-export class App extends React.PureComponent {
+export default class App extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -26,7 +26,8 @@ export class App extends React.PureComponent {
 
   /** Event handler for the 'load more...' button. */
   private getFeedData = () => {
-    store.dispatch({ type: ActionTypeKeys.GetFeedEvents });
+    console.log('this.props %o', this.props);
+    store.dispatch({ type: ActionTypeKeys.reqFeedEvents });
   };
 
   render() {

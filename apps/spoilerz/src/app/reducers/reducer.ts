@@ -11,46 +11,24 @@ import { ActionTypes, ActionTypeKeys } from '../actions/actions';
 /** Interfaces */
 import { StoreState } from '../interfaces/interfaces';
 
+/** We define the initial state of the Redux store here as a default value in the reducer. */
+const initialState: StoreState = { feedEvents: [] };
+
 /**
  * For now this app only has 1 reducer function. We may need to split things up if things
  * get more complex.
  */
 export const reducer = function (
-  state: StoreState,
+  state: StoreState = initialState,
   action: ActionTypes
 ): StoreState {
   console.log('reducer: action %o', action);
   switch (action.type) {
-    case ActionTypeKeys.GetFeedEvents:
+    case ActionTypeKeys.GotFeedEvents:
+      console.log('GotFeedEvents!!!');
       return {
         ...state,
-        feedEvents: [
-          {
-            id: 1,
-            title: 'Mommie Dearest 1981',
-            content: 'Mommie Dearest 1981',
-          },
-          {
-            id: 12,
-            title: 'Oldboy 2003',
-            content: 'Oldboy 2003',
-          },
-          {
-            id: 123,
-            title: 'The Mirror Crack’d 1980',
-            content: 'The Mirror Crack’d 1980',
-          },
-          {
-            id: 1234,
-            title: 'The Elephant Man 1980',
-            content: 'The Elephant Man 1980',
-          },
-          {
-            id: 12345,
-            title: 'On the Rocks 2020',
-            content: 'On the Rocks 2020',
-          },
-        ],
+        feedEvents: action.payload,
       };
     default:
       return state;

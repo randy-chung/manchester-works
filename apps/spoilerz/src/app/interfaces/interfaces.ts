@@ -22,7 +22,10 @@ export interface StoreState {
  * third-party actions that may be flowing through Redux.
  */
 export enum ActionTypeKeys {
-  GetFeedEvents = 'GET_FEED_EVENTS',
+  /** This action is used to trigger a request for feed event data. */
+  reqFeedEvents = 'REQ_FEED_EVENTS',
+  /** Saga should `put` this action once it has received data. */
+  GotFeedEvents = 'GOT_FEED_EVENTS',
   OtherAction = 'OTHER_ACTION_as9fl39447j^3j3me',
 }
 
@@ -30,8 +33,13 @@ export enum ActionTypeKeys {
  * All the available actions for our store listed below.
  */
 
-export interface GetFeedAction {
-  type: ActionTypeKeys.GetFeedEvents;
+export interface ReqFeedAction {
+  type: ActionTypeKeys.reqFeedEvents;
+}
+
+export interface GotFeedAction {
+  type: ActionTypeKeys.GotFeedEvents;
+  payload: FeedEvent[];
 }
 
 /**
@@ -52,4 +60,4 @@ interface OtherAction {
  * All possible Redux action types unioned into one type. This is useful for type declarations
  * on reducer functions, etc.
  */
-export type ActionTypes = GetFeedAction | OtherAction;
+export type ActionTypes = ReqFeedAction | GotFeedAction | OtherAction;

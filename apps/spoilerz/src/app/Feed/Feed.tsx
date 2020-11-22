@@ -13,6 +13,10 @@ import { FeedEvent, StoreState } from '../interfaces/interfaces';
 import styles from './Feed.module.scss';
 
 interface FeedProps {
+  /**
+   * This prop will be populated by a subscription to the redux store. This happens when we use
+   * mapStateToProps with connect().
+   */
   feedEvents: FeedEvent[];
 }
 
