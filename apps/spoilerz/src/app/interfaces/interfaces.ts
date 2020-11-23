@@ -5,6 +5,7 @@ export interface FeedEvent {
   id: number;
   title: string;
   content: string;
+  imgUrl: string;
 }
 
 /**
@@ -26,6 +27,7 @@ export enum ActionTypeKeys {
   reqFeedEvents = 'REQ_FEED_EVENTS',
   /** Saga should `put` this action once it has received data. */
   GotFeedEvents = 'GOT_FEED_EVENTS',
+  ErrApiCall = ' API_CALL_FAILURE',
   OtherAction = 'OTHER_ACTION_as9fl39447j^3j3me',
 }
 
@@ -40,6 +42,12 @@ export interface ReqFeedAction {
 export interface GotFeedAction {
   type: ActionTypeKeys.GotFeedEvents;
   payload: FeedEvent[];
+}
+
+/** Error Actions */
+
+export interface ErrApiCallAction {
+  type: ActionTypeKeys.ErrApiCall;
 }
 
 /**
@@ -60,4 +68,8 @@ interface OtherAction {
  * All possible Redux action types unioned into one type. This is useful for type declarations
  * on reducer functions, etc.
  */
-export type ActionTypes = ReqFeedAction | GotFeedAction | OtherAction;
+export type ActionTypes =
+  | ReqFeedAction
+  | GotFeedAction
+  | ErrApiCallAction
+  | OtherAction;

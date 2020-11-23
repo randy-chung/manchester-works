@@ -3,10 +3,8 @@
  * file. All the actions are defined there.
  */
 
-import {
+export {
   ActionTypeKeys,
   ActionTypes,
   ReqFeedAction,
 } from '../interfaces/interfaces';
-
-export { ActionTypeKeys, ActionTypes, ReqFeedAction };

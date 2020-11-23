@@ -49,7 +49,7 @@ class Feed extends React.PureComponent<FeedProps> {
             <Card style={{ width: '18rem' }}>
               <Card.Img
                 variant="top"
-                src="https://a.ltrbxd.com/resized/film-poster/5/0/4/4/0/5/504405-the-lovebirds-0-140-0-210-crop.jpg?k=ef40de8287 2x"
+                src={feedEvent.imgUrl}
                 className={styles.cardImgTop}
               />
               <Card.Body>
