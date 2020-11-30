@@ -26,8 +26,7 @@ export default class App extends React.PureComponent {
 
   /** Event handler for the 'load more...' button. */
   private getFeedData = () => {
-    console.log('this.props %o', this.props);
-    store.dispatch({ type: ActionTypeKeys.reqFeedEvents });
+    store.dispatch({ type: ActionTypeKeys.ReqFeedEvents });
   };
 
   render() {

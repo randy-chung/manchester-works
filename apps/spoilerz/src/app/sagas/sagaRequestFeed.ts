@@ -35,7 +35,7 @@ function* requestData() {
  * Watcher saga. This function will be used to watch for any Feed request actions.
  */
 export function* watchRequestFeedData() {
-  yield takeEvery(ActionTypeKeys.reqFeedEvents, requestData);
+  yield takeEvery(ActionTypeKeys.ReqFeedEvents, requestData);
 }
 
 /**

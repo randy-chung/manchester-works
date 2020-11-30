@@ -3,14 +3,24 @@ import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 /** Spoilerz stuff */
 import App from './App';
-import { StoreState } from './interfaces/interfaces';
+import { store } from './store/store';
+import {
+  ActionTypeKeys,
+  ReqFeedAction,
+  StoreState,
+} from './interfaces/interfaces';
 
 describe('App', () => {
   /** A dummy redux store state object to pass to our test-renderings of App. */
   let mockStore = undefined;
+
+  /** We will query for our load button using this text. */
+  const loadMoreBtnTxt = 'Load More...';
+
   beforeEach(() => {
     mockStore = createStore((): StoreState => ({ feedEvents: [] }));
   });
@@ -33,6 +43,27 @@ describe('App', () => {
       </Provider>
     );
 
-    expect(getAllByText('Load More...').length).toBe(1);
+    expect(getAllByText(loadMoreBtnTxt).length).toBe(1);
+  });
+
+  it('should dispatch an action when the button is clicked', () => {
+    // Arrange
+    const reqFeedAction: ReqFeedAction = { type: ActionTypeKeys.ReqFeedEvents };
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    spyOn(store, 'dispatch');
+
+    const loadBtn = getByText(loadMoreBtnTxt);
+
+    // Act
+    userEvent.click(loadBtn);
+
+    // Assert
+    expect(store.dispatch).toHaveBeenCalledWith(reqFeedAction);
   });
 });

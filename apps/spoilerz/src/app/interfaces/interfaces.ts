@@ -24,7 +24,7 @@ export interface StoreState {
  */
 export enum ActionTypeKeys {
   /** This action is used to trigger a request for feed event data. */
-  reqFeedEvents = 'REQ_FEED_EVENTS',
+  ReqFeedEvents = 'REQ_FEED_EVENTS',
   /** Saga should `put` this action once it has received data. */
   GotFeedEvents = 'GOT_FEED_EVENTS',
   ErrApiCall = ' API_CALL_FAILURE',
@@ -36,7 +36,7 @@ export enum ActionTypeKeys {
  */
 
 export interface ReqFeedAction {
-  type: ActionTypeKeys.reqFeedEvents;
+  type: ActionTypeKeys.ReqFeedEvents;
 }
 
 export interface GotFeedAction {
