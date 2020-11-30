@@ -22,10 +22,8 @@ export const reducer = function (
   state: StoreState = initialState,
   action: ActionTypes
 ): StoreState {
-  console.log('reducer: action %o', action);
   switch (action.type) {
     case ActionTypeKeys.GotFeedEvents:
-      console.log('GotFeedEvents!!!');
       return {
         ...state,
         feedEvents: action.payload,

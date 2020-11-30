@@ -60,7 +60,7 @@ export interface ErrApiCallAction {
  * Our preferred approach for this is to define an OtherAction type (which we never dispatch) that
  * lives in our ActionTypes, so TypeScript will warn us if it’s not handled.
  */
-interface OtherAction {
+export interface OtherAction {
   type: ActionTypeKeys.OtherAction;
 }
 

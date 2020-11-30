@@ -35,7 +35,7 @@ function mapStateToProps(state: StoreState) {
   };
 }
 
-class Feed extends React.PureComponent<FeedProps> {
+export class PureFeed extends React.PureComponent<FeedProps> {
   constructor(props) {
     super(props);
     this.state = {};
@@ -66,4 +66,4 @@ class Feed extends React.PureComponent<FeedProps> {
 }
 
 // Connect the Feed component to the store and return the store-wrapped component.
-export default connect(mapStateToProps)(Feed);
+export default connect(mapStateToProps)(PureFeed);

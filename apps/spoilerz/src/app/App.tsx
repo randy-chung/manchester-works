@@ -2,7 +2,7 @@
 import React from 'react';
 
 /** Spoilerz stuff */
-import Feed from './Feed/Feed';
+import PureFeed from './Feed/Feed';
 import { store } from './store/store';
 
 /** UI components */
@@ -44,7 +44,7 @@ export default class App extends React.PureComponent {
         <Button variant="primary" onClick={this.getFeedData}>
           Load More...
         </Button>
-        <Feed />
+        <PureFeed />
       </div>
     );
   }
