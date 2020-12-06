@@ -34,6 +34,8 @@ export interface StoreState {
 export enum ActionTypeKeys {
   /** Store an auth/request token in the redux store. */
   SetReqToken = 'SET_REQ_TOKEN',
+  /** Used when doing requests to reddit's API.  */
+  GotReqToken = 'GOT_REQ_TOKEN',
   /** This action is used to trigger a request for feed event data. */
   ReqFeedEvents = 'REQ_FEED_EVENTS',
   /** Saga should `put` this action once it has received data. */
@@ -50,6 +52,12 @@ export enum ActionTypeKeys {
 export interface SetReqTokenAction {
   type: ActionTypeKeys.SetReqToken;
   payload: { token: RedditToken };
+}
+
+/** This action tells our data request saga that we have the token, so we're good to proceed with
+ the API request. */
+export interface GotReqTokenAction {
+  type: ActionTypeKeys.GotReqToken;
 }
 
 /** This action triggers the process to request data to populate the feed. */
@@ -91,6 +99,7 @@ export interface OtherAction {
  */
 export type ActionTypes =
   | SetReqTokenAction
+  | GotReqTokenAction
   | ReqFeedAction
   | GotFeedAction
   | ErrApiCallAction

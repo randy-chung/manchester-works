@@ -3,28 +3,87 @@
  */
 
 /** React/infrastructural stuff */
-import { call, put, takeEvery } from 'redux-saga/effects';
-import axios, { AxiosPromise } from 'axios';
+import { call, fork, put, takeEvery } from 'redux-saga/effects';
+import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
+import querystring from 'querystring';
 
 /** Spoilerz stuff */
-import { ActionTypeKeys, FeedEvent } from '../interfaces/interfaces';
+import {
+  ActionTypeKeys,
+  FeedEvent,
+  RedditToken,
+  StoreState,
+} from '../interfaces/interfaces';
+import * as authLib from '../lib/auth';
 
 /**
- * Worker saga.
+ *
+ * Root saga
+ *
+ */
+export function* rootSaga(getState: () => StoreState) {
+  const getStoredToken = () => getState().redditToken;
+
+  yield fork(watchFeedReq, getStoredToken);
+  yield fork(watchToken);
+}
+
+/**
+ *
+ * Watcher Sagas
+ *
+ */
+
+/**
+ * Watcher for actions signifying a request for feed data.
+ */
+function* watchFeedReq(getStoredToken: () => RedditToken) {
+  yield takeEvery(ActionTypeKeys.ReqFeedEvents, function* () {
+    const token = getStoredToken();
+    // Check if the token in the redux store is valid. If not, get a new one. Dispatch the
+    // 'got token' action once we have a token, so the saga can trigger the actual API call.
+    if (!authLib.isTokenValid(token)) {
+      const token = yield requestToken();
+      yield put({
+        type: ActionTypeKeys.GotReqToken,
+        payload: { token: token },
+      });
+    } else {
+      yield put({ type: ActionTypeKeys.GotReqToken });
+    }
+  });
+}
+
+/**
+ * Watcher for action signifying a valid reddit OAuth token has been retrieved.
+ */
+function* watchToken() {
+  yield takeEvery(ActionTypeKeys.GotReqToken, requestData);
+}
+
+/**
+ *
+ * Worker Sagas
+ *
+ */
+
+/**
+ * Call the reddit API to get discussion threads. This should only be called once we know we
+ * have a valid OAuth token.
  */
 function* requestData() {
   try {
-    const requestDogs = function (): AxiosPromise<unknown> {
-      // Get 5 random dog images.
-      return axios({
-        method: 'get',
-        url: 'https://dog.ceo/api/breeds/image/random/5',
-      });
-    };
-
-    const dogs = yield call(requestDogs);
-    const parsedDogs = parseDogs(dogs.data.message);
-    yield put({ type: ActionTypeKeys.GotFeedEvents, payload: parsedDogs });
+    // yield call(getFeedData);
+    // const requestDogs = function (): AxiosPromise<unknown> {
+    //   // Get 5 random dog images.
+    //   return axios({
+    //     method: 'get',
+    //     url: 'https://dog.ceo/api/breeds/image/random/5',
+    //   });
+    // };
+    // const dogs = yield call(requestDogs);
+    // const parsedDogs = parseDogs(dogs.data.message);
+    // yield put({ type: ActionTypeKeys.GotFeedEvents, payload: parsedDogs });
   } catch (err) {
     // dispatch a failure action to the store with the error
     yield put({ type: ActionTypeKeys.ErrApiCall, err });
@@ -32,28 +91,32 @@ function* requestData() {
 }
 
 /**
- * Watcher saga. This function will be used to watch for any Feed request actions.
+ *
+ * Helper/Utility Functions
+ *
  */
-export function* watchRequestFeedData() {
-  yield takeEvery(ActionTypeKeys.ReqFeedEvents, requestData);
-}
 
 /**
+ * Request a 'userless' authorization token from reddit. Details under the 'Application Only OAuth'
+ * section here: https://github.com/reddit-archive/reddit/wiki/OAuth2
  *
- * Helper functions
- *
+ * @returns Promise that resolves with the access token (string). This token should be used with
+ *          all subsequent requests to the reddit API.
  */
+function requestToken(): AxiosPromise<string> {
+  const url = authLib.getUrlForTokenReq();
+  const payload = authLib.getPayloadForTokenReq();
+  const basicAuth: AxiosRequestConfig = authLib.getBasicAuthForTokenReq();
 
-function parseDogs(rawDogs: unknown[]): FeedEvent[] {
-  return rawDogs.map(
-    (url: string, index: number): FeedEvent => {
-      const urlParts = url.split('/');
-      return {
-        id: index,
-        title: urlParts[urlParts.length - 2],
-        content: urlParts[urlParts.length - 2],
-        imgUrl: url,
-      };
-    }
-  );
+  // NOTE (Randy Chung - 2020-12-06): The reddit OAuth endpoint needs the POST request to be of
+  // content type application/x-www-form-urlencoded and not application/json, so we need to use the
+  // querystring lib to properly encode the body/payload. The request will fail if we don't do this.
+  return axios({
+    ...basicAuth,
+    method: 'POST',
+    url: url,
+    data: querystring.stringify(payload),
+  }).then((response) => {
+    return response.data.access_token;
+  });
 }

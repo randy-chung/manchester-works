@@ -12,7 +12,7 @@ import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 /** Spoilerz stuff */
 import { StoreState } from '../interfaces/interfaces';
 import { reducer } from '../reducers/reducer';
-import { watchRequestFeedData } from '../sagas/sagaRequestFeed';
+import { rootSaga } from '../sagas/sagaRequestFeed';
 
 // Initialize saga middleware and redux store.
 const sagaMiddleware: SagaMiddleware = createSagaMiddleware();
@@ -28,4 +28,4 @@ export const store: Store<StoreState> = createStore(
 );
 
 // Run the saga to watch for data requests for the activity feed.
-sagaMiddleware.run(watchRequestFeedData);
+sagaMiddleware.run(rootSaga, store.getState);

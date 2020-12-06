@@ -12,7 +12,7 @@ import { RedditToken } from '../interfaces/interfaces';
 /**
  * Use this to get reddit the URL used to POST a request to get an OAuth token.
  */
-export function getAuthUrl() {
+export function getUrlForTokenReq() {
   const url = 'https://www.reddit.com/api/v1/access_token';
   return url;
 }
@@ -20,7 +20,7 @@ export function getAuthUrl() {
 /**
  * Returns the payload to be used with the POST request to reddit's OAuth token request endpoint.
  */
-export function getAuthPayload() {
+export function getPayloadForTokenReq() {
   const payload = {
     grant_type: 'client_credentials',
   };
@@ -46,12 +46,12 @@ export function getBasicAuthForTokenReq() {
 /**
  * Check if we have a token if the redux store, and if so, is it still valid (not expired).
  */
-export function validateToken(token: RedditToken): boolean {
+export function isTokenValid(token: RedditToken): boolean {
   /** If the current time is within this many ms of the expiry, we consider the token invalid. */
   const buffer = 180000; // 3 mins.
   const now = new Date();
 
-  if (token.expiry.getTime() <= now.getTime() + buffer) {
+  if (!token || token.expiry.getTime() <= now.getTime() + buffer) {
     return false;
   }
   return true;
