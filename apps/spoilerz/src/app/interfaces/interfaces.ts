@@ -52,10 +52,12 @@ export interface SetReqTokenAction {
   payload: { token: RedditToken };
 }
 
+/** This action triggers the process to request data to populate the feed. */
 export interface ReqFeedAction {
   type: ActionTypeKeys.ReqFeedEvents;
 }
 
+/** This action signifies feed data has been received, so it's time to update the UI. */
 export interface GotFeedAction {
   type: ActionTypeKeys.GotFeedEvents;
   payload: FeedEvent[];
@@ -63,6 +65,8 @@ export interface GotFeedAction {
 
 /** Error Actions */
 
+/** Dispatch this action if we get an API request error. Error handlers should be listening for
+ this action. */
 export interface ErrApiCallAction {
   type: ActionTypeKeys.ErrApiCall;
 }
