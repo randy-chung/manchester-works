@@ -12,7 +12,7 @@ import { ActionTypes, ActionTypeKeys } from '../actions/actions';
 import { StoreState } from '../interfaces/interfaces';
 
 /** We define the initial state of the Redux store here as a default value in the reducer. */
-const initialState: StoreState = { feedEvents: [] };
+const initialState: StoreState = { feedEvents: [], redditToken: null };
 
 /**
  * For now this app only has 1 reducer function. We may need to split things up if things

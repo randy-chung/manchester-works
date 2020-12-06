@@ -22,7 +22,9 @@ describe('App', () => {
   const loadMoreBtnTxt = 'Load More...';
 
   beforeEach(() => {
-    mockStore = createStore((): StoreState => ({ feedEvents: [] }));
+    mockStore = createStore(
+      (): StoreState => ({ feedEvents: [], redditToken: null })
+    );
   });
 
   it('should render successfully', () => {

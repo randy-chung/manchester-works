@@ -16,6 +16,7 @@ describe('reducer', () => {
     // Arrange
     const origState: StoreState = {
       feedEvents: [{ id: 1, title: 'hello', content: 'world', imgUrl: '' }],
+      redditToken: null,
     };
     const action: OtherAction = {
       type: ActionTypeKeys.OtherAction,
@@ -47,7 +48,10 @@ describe('reducer', () => {
     };
 
     // Act
-    const returnedState = reducer({ feedEvents: [] }, gotFeedAction);
+    const returnedState = reducer(
+      { feedEvents: [], redditToken: null },
+      gotFeedAction
+    );
 
     // Assert
     expect(returnedState.feedEvents).toStrictEqual(mockFeedEvents);

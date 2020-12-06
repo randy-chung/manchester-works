@@ -9,11 +9,20 @@ export interface FeedEvent {
 }
 
 /**
+ * A parsed version of the token we get from reddit's OAuth.
+ */
+export interface RedditToken {
+  token: string;
+  expiry: Date;
+}
+
+/**
  * The type for the state kept in our Redux store.
  */
 export interface StoreState {
   /** All of the events we are displaying on the main feed. */
   feedEvents: FeedEvent[];
+  redditToken: RedditToken;
 }
 
 /**
@@ -23,6 +32,8 @@ export interface StoreState {
  * third-party actions that may be flowing through Redux.
  */
 export enum ActionTypeKeys {
+  /** Store an auth/request token in the redux store. */
+  SetReqToken = 'SET_REQ_TOKEN',
   /** This action is used to trigger a request for feed event data. */
   ReqFeedEvents = 'REQ_FEED_EVENTS',
   /** Saga should `put` this action once it has received data. */
@@ -34,6 +45,12 @@ export enum ActionTypeKeys {
 /**
  * All the available actions for our store listed below.
  */
+
+/** This action tells the redux store to save the specified token. */
+export interface SetReqTokenAction {
+  type: ActionTypeKeys.SetReqToken;
+  payload: { token: RedditToken };
+}
 
 export interface ReqFeedAction {
   type: ActionTypeKeys.ReqFeedEvents;
@@ -69,6 +86,7 @@ export interface OtherAction {
  * on reducer functions, etc.
  */
 export type ActionTypes =
+  | SetReqTokenAction
   | ReqFeedAction
   | GotFeedAction
   | ErrApiCallAction

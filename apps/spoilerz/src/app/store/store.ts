@@ -10,6 +10,7 @@ import { applyMiddleware, createStore, Store } from 'redux';
 import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 
 /** Spoilerz stuff */
+import { StoreState } from '../interfaces/interfaces';
 import { reducer } from '../reducers/reducer';
 import { watchRequestFeedData } from '../sagas/sagaRequestFeed';
 
@@ -21,7 +22,7 @@ const sagaMiddleware: SagaMiddleware = createSagaMiddleware();
  * The Redux store
  *
  */
-export const store: Store = createStore(
+export const store: Store<StoreState> = createStore(
   reducer,
   applyMiddleware(sagaMiddleware)
 );
