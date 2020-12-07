@@ -103,7 +103,7 @@ function* requestData() {
  * @returns Promise that resolves with the access token (string). This token should be used with
  *          all subsequent requests to the reddit API.
  */
-function requestToken(): AxiosPromise<string> {
+function requestToken(): Promise<RedditToken> {
   const url = authLib.getUrlForTokenReq();
   const payload = authLib.getPayloadForTokenReq();
   const basicAuth: AxiosRequestConfig = authLib.getBasicAuthForTokenReq();
@@ -117,6 +117,24 @@ function requestToken(): AxiosPromise<string> {
     url: url,
     data: querystring.stringify(payload),
   }).then((response) => {
-    return response.data.access_token;
+    return parseToken(response.data);
   });
+}
+
+/** Parse the token received from the reddit OAuth endpoint. Mainly, we want to convert the expiry
+ time into a usable JS Date. */
+function parseToken(token: {
+  access_token: string;
+  expires_in: number;
+  scope: string;
+  token_type: string;
+}): RedditToken {
+  const now = new Date();
+  const nowSeconds = now.getSeconds();
+  const expiry = new Date(now.setSeconds(nowSeconds + token.expires_in));
+
+  return {
+    token: token.access_token,
+    expiry: expiry,
+  };
 }
