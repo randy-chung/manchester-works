@@ -34,10 +34,7 @@ export function getPayloadForTokenReq() {
  */
 export function getBasicAuthForTokenReq() {
   const auth = {
-    auth: {
-      username: '5-zm3KXrBeRfFA',
-      password: 'jEs4E6aWF45M6OFfLNn9mBTX2jSFwA',
-    },
+    auth: {},
   };
   return auth;
 }
