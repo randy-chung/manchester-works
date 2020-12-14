@@ -44,6 +44,13 @@ function* watchFeedReq(getStoredToken: () => RedditToken) {
     // 'got token' action once we have a token, so the saga can trigger the actual API call.
     if (!authLib.isTokenValid(token)) {
       const token = yield requestToken();
+      // First, save the token in the redux store.
+      yield put({
+        type: ActionTypeKeys.SetReqToken,
+        payload: { token: token },
+      });
+
+      // Trigger the next steps in doing the request.
       yield put({
         type: ActionTypeKeys.GotReqToken,
         payload: { token: token },

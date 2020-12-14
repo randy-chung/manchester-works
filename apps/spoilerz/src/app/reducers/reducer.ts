@@ -28,6 +28,13 @@ export const reducer = function (
         ...state,
         feedEvents: action.payload,
       };
+
+    case ActionTypeKeys.SetReqToken:
+      return {
+        ...state,
+        redditToken: action.payload.token,
+      };
+
     default:
       return state;
   }
