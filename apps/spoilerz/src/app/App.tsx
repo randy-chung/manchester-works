@@ -1,4 +1,4 @@
-/** React stuff */
+/** React/infrastructural stuff */
 import React from 'react';
 
 /** Spoilerz stuff */

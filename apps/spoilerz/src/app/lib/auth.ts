@@ -27,15 +27,20 @@ export function getPayloadForTokenReq() {
   return payload;
 }
 
-// TODO (Randy Chung - 2020-12-05): The auth details need to be put in environment variables
-// using the dotEnv npm lib.
 /**
  * Returns an object with the basic auth data required for the reddit OAuth token request.
  */
 export function getBasicAuthForTokenReq() {
+  // NOTE (Randy Chung - 2020-12-14): the dotenv lib is used by default by nx to read environment
+  // variables from the .local.env file in the root of the app directory. Any vars in that file
+  // prefixed with 'NX_' will be read and stored into the process.env object.
   const auth = {
-    auth: {},
+    auth: {
+      username: process.env.NX_RDDT_ID,
+      password: process.env.NX_RDDT_SECRET,
+    },
   };
+
   return auth;
 }
 
