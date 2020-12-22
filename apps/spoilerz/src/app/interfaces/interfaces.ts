@@ -58,6 +58,7 @@ export interface SetReqTokenAction {
  the API request. */
 export interface GotReqTokenAction {
   type: ActionTypeKeys.GotReqToken;
+  payload: { token: RedditToken };
 }
 
 /** This action triggers the process to request data to populate the feed. */

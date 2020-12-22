@@ -56,7 +56,11 @@ function* watchFeedReq(getStoredToken: () => RedditToken) {
         payload: { token: token },
       });
     } else {
-      yield put({ type: ActionTypeKeys.GotReqToken });
+      // If we already have a token, skip to the next steps in doing the request.
+      yield put({
+        type: ActionTypeKeys.GotReqToken,
+        payload: { token: token },
+      });
     }
   });
 }
