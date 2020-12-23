@@ -35,6 +35,9 @@
     "spoilerz-e2e": {
       "tags": [],
       "implicitDependencies": ["spoilerz"]
+    },
+    "scraper": {
+      "tags": []
     }
   }
 }

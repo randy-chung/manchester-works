@@ -46,12 +46,14 @@
                 }
               ]
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "spoilerz:build"
+            "buildTarget": "spoilerz:build",
+            "proxyConfig": "apps/spoilerz/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -70,7 +72,8 @@
           "options": {
             "jestConfig": "apps/spoilerz/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/spoilerz"]
         },
         "storybook": {
           "builder": "@nrwl/storybook:storybook",
@@ -100,7 +103,8 @@
             "ci": {
               "quiet": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         }
       }
     },
@@ -126,6 +130,57 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/spoilerz-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "scraper": {
+      "root": "apps/scraper",
+      "sourceRoot": "apps/scraper/src",
+      "projectType": "application",
+      "prefix": "scraper",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/scraper",
+            "main": "apps/scraper/src/main.ts",
+            "tsConfig": "apps/scraper/tsconfig.app.json",
+            "assets": ["apps/scraper/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/scraper/src/environments/environment.ts",
+                  "with": "apps/scraper/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "scraper:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/scraper/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/scraper"],
+          "options": {
+            "jestConfig": "apps/scraper/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
