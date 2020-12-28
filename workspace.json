@@ -134,12 +134,20 @@
         }
       }
     },
+    "scraper-job": {
+      "root": "apps/scraper-job",
+      "sourceRoot": "apps/scraper-job/src",
       "projectType": "application",
+      "prefix": "scraper-job",
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
+            "outputPath": "dist/apps/scraper-job",
+            "main": "apps/scraper-job/src/main.ts",
+            "tsConfig": "apps/scraper-job/tsconfig.app.json",
+            "assets": ["apps/scraper-job/src/assets"]
           },
           "configurations": {
             "production": {
@@ -148,6 +156,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
+                  "replace": "apps/scraper-job/src/environments/environment.ts",
+                  "with": "apps/scraper-job/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -156,16 +166,20 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
+            "buildTarget": "scraper-job:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
+            "lintFilePatterns": ["apps/scraper-job/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/scraper-job"],
           "options": {
+            "jestConfig": "apps/scraper-job/jest.config.js",
             "passWithNoTests": true
           }
         }

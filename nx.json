@@ -36,6 +36,7 @@
       "tags": [],
       "implicitDependencies": ["spoilerz"]
     },
+    "scraper-job": {
       "tags": []
     }
   }
