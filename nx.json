@@ -38,6 +38,9 @@
     },
     "scraper-job": {
       "tags": []
+    },
+    "server": {
+      "tags": []
     }
   }
 }
