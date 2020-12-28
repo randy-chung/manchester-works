@@ -9,27 +9,6 @@
  *
  */
 
-import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
-import * as querystring from 'qs';
+import { getData } from './app/api-reddit';
 
-// Do a token request.
-const url = 'https://www.reddit.com/api/v1/access_token';
-const payload = {
-  grant_type: 'client_credentials',
-};
-const basicAuth: AxiosRequestConfig = {
-  auth: {
-    username: process.env.NX_RDDT_ID,
-    password: process.env.NX_RDDT_SECRET,
-  },
-};
-
-console.log('>>>>>>> axios-ing it up >>>>>>>');
-axios({
-  ...basicAuth,
-  method: 'POST',
-  url: url,
-  data: querystring.stringify(payload),
-}).then((response) => {
-  console.log('response.data %o', response.data);
-});
+getData();
