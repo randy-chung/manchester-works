@@ -1,3 +1,5 @@
 module.exports = {
-  projects: ['<rootDir>/apps/spoilerz', '<rootDir>/apps/scraper'],
+  projects: [
+    '<rootDir>/apps/spoilerz',
+  ],
 };
