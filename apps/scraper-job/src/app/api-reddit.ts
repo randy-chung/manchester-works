@@ -7,11 +7,30 @@
 import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
 import * as querystring from 'qs';
 
+/**
+ * Get comment data from the reddit API. This function will first get an OAuth token required
+ * to get the comments, and then the actual request for the comments.
+ */
 export function getData(): AxiosPromise {
-  const token = getOAuthToken().then((token) => {
-    console.log('token %o', token);
+  // Get the OAuth token then use that token to do the request for comments.
+  return getOAuthToken().then((token: string) => {
+    return doRequestForComments(token);
   });
-  return;
+
+  /**
+   * This function does the actual HTTP request for reddit comments.
+   */
+  function doRequestForComments(token: string): AxiosPromise<unknown> {
+    const url = `https://oauth.reddit.com/r/wallstreetbets/new?limit=50`;
+    return axios
+      .get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .catch((err) => {
+        console.error(err);
+        throw err;
+      });
+  }
 }
 
 /**
@@ -19,7 +38,7 @@ export function getData(): AxiosPromise {
  * can get a new token any time we do a data request (we don't have to worry about storing the
  * token for reuse).
  */
-function getOAuthToken(): AxiosPromise {
+function getOAuthToken(): Promise<string> {
   const url = 'https://www.reddit.com/api/v1/access_token';
 
   const payload = {

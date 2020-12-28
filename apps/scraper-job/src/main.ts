@@ -11,4 +11,6 @@
 
 import { getData } from './app/api-reddit';
 
-getData();
+getData().then((comments) => {
+  console.log('comments %o', comments);
+});
